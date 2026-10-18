@@ -6,6 +6,7 @@ import { PlayerClock } from 'Component/PlayerClock';
 import { PlayerDuration } from 'Component/PlayerDuration';
 import { PlayerDurationEnd } from 'Component/PlayerDurationEnd';
 import { PlayerProgressBar } from 'Component/PlayerProgressBar';
+import { PlayerSkipSegment } from 'Component/PlayerSkipSegment';
 import { PlayerSubtitlesStyleSelector } from 'Component/PlayerSubtitlesStyleSelector';
 import { PlayerVideoSelector } from 'Component/PlayerVideoSelector';
 import { ThemedDropdown } from 'Component/ThemedDropdown';
@@ -120,6 +121,8 @@ export function PlayerComponent({
   video,
   film,
   voice,
+  skipSegment,
+  handleSkipSegment,
   videoTrack,
   selectedSubtitle,
   qualityOverlayRef,
@@ -973,6 +976,9 @@ export function PlayerComponent({
       />
       { renderError() }
       { renderControls() }
+      { skipSegment && (
+        <PlayerSkipSegment type={ skipSegment.type } onPress={ handleSkipSegment } />
+      ) }
       { renderLoader() }
       { renderModals() }
     </View>

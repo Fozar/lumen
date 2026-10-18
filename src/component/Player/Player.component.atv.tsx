@@ -8,6 +8,7 @@ import { PlayerClock } from 'Component/PlayerClock';
 import { PlayerDuration } from 'Component/PlayerDuration';
 import { PlayerDurationEnd } from 'Component/PlayerDurationEnd';
 import { PlayerProgressBar } from 'Component/PlayerProgressBar';
+import { PlayerSkipSegment } from 'Component/PlayerSkipSegment';
 import { PlayerSubtitlesStyleSelector } from 'Component/PlayerSubtitlesStyleSelector';
 import { PlayerVideoSelector } from 'Component/PlayerVideoSelector';
 import { ThemedDropdown } from 'Component/ThemedDropdown';
@@ -136,6 +137,8 @@ export function PlayerComponent({
   video,
   film,
   voice,
+  skipSegment,
+  handleSkipSegment,
   videoTrack,
   selectedSubtitle,
   qualityOverlayRef,
@@ -215,6 +218,8 @@ export function PlayerComponent({
   const getFocusedElement = useLatest(focusedElement);
   const getHideActions = useLatest(hideActions);
   const getIsScrubbing = useLatest(isScrubbing);
+  const getSkipSegment = useLatest(skipSegment);
+  const onSkipSegment = useEffectEvent(() => handleSkipSegment());
   const onTogglePlayPause = useEffectEvent(() => togglePlayPause());
   const onBackwardToStart = useEffectEvent(() => backwardToStart());
 
@@ -326,6 +331,14 @@ export function PlayerComponent({
 
       if (type === SupportedKeys.BACKWARD) {
         onBackwardToStart();
+
+        return true;
+      }
+
+      // OK on the picture while a skip button is up is the button's press - with the
+      // controls open it is left to whatever is focused there
+      if (!getShowControls() && type === SupportedKeys.ENTER && getSkipSegment()) {
+        onSkipSegment();
 
         return true;
       }
@@ -988,6 +1001,9 @@ export function PlayerComponent({
       { renderTapSurface() }
       { renderBackground() }
       { renderControls() }
+      { skipSegment && (
+        <PlayerSkipSegment type={ skipSegment.type } onPress={ handleSkipSegment } />
+      ) }
       { renderLoader() }
       { renderError() }
       { renderModals() }

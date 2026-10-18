@@ -9,7 +9,9 @@ import { usePlayerProgressActions } from 'Context/PlayerProgressContext';
 import { useServiceContext } from 'Context/ServiceContext';
 import { activateKeepAwakeAsync, deactivateKeepAwake } from 'expo-keep-awake';
 import { useAutoFrameRateAction } from 'Hooks/useAutoFrameRate';
+import { useLatest } from 'Hooks/useLatest';
 import { useLocalBookmarks } from 'Hooks/useLocalLibrary';
+import { useSkipSegments } from 'Hooks/useSkipSegments';
 import { useVideoPlayerState } from 'Hooks/useVideoPlayerState';
 import { useVolumeNormalizationAction } from 'Hooks/useVolumeNormalization';
 import { t } from 'i18n/translate';
@@ -36,6 +38,7 @@ import { FilmInterface } from 'Type/Film.interface';
 import { FilmVideoInterface, SubtitleInterface } from 'Type/FilmVideo.interface';
 import { FilmVoiceInterface } from 'Type/FilmVoice.interface';
 import { isBookmarked } from 'Util/Film';
+import { findActiveSegment, SkipSegment } from 'Util/IntroDb';
 import { createMasterPlaylist, getQualityFromResolution } from 'Util/Hls';
 import { upsertLocalHistoryItem } from 'Util/LocalLibrary';
 import { setIntervalSafe } from 'Util/Misc';
@@ -122,6 +125,9 @@ export function PlayerContainer({
 
   const [selectedVideo, setSelectedVideo] = useState<FilmVideoInterface>(video);
   const [selectedVoice, setSelectedVoice] = useState<FilmVoiceInterface>(voice);
+  const skipSegments = useSkipSegments(film, selectedVoice.lastSeasonId, selectedVoice.lastEpisodeId, !isOffline);
+  const getSkipSegments = useLatest(skipSegments);
+  const [skipSegment, setSkipSegment] = useState<SkipSegment | undefined>();
   const [selectedQuality, setSelectedQuality] = useState<string>(defaultQuality);
   const [overlayQuality, setOverlayQuality] = useState<string>(
     storedQuality !== MAX_QUALITY.value ? defaultQuality : MAX_QUALITY.value
@@ -663,6 +669,21 @@ export function PlayerContainer({
     }
   };
 
+  const handleSkipSegment = () => {
+    if (!skipSegment) {
+      return;
+    }
+
+    const { duration } = player;
+
+    // a segment that runs to the end of the media is skipped to just before it,
+    // so that the next episode (if any) follows the way it does at a natural end
+    const target = skipSegment.end ?? duration - 0.5;
+
+    player.seekTo(Math.max(0, duration > 0 ? Math.min(target, duration - 0.5) : target));
+    setSkipSegment(undefined);
+  };
+
   const onPlaybackEnd = (currentTime: number, duration: number) => {
     if (!playerAutoNextEpisode) {
       return;
@@ -699,6 +720,10 @@ export function PlayerContainer({
     }
 
     lastProgressUpdate.current = now;
+
+    const activeSkipSegment = findActiveSegment(getSkipSegments(), currentTime, duration);
+
+    setSkipSegment((prev) => (prev === activeSkipSegment ? prev : activeSkipSegment));
 
     updateProgressStatus(currentTime, !isOffline ? bufferedPosition.current : 0, duration, player.rate);
 
@@ -1141,6 +1166,8 @@ export function PlayerContainer({
     video: selectedVideo,
     film,
     voice: selectedVoice,
+    skipSegment,
+    handleSkipSegment,
     videoTrack: selectedVideoTrack,
     selectedQuality,
     selectedSubtitle,

@@ -7,6 +7,7 @@ import { ResizeMode, VideoPlayer, VideoPlayerStatus } from 'react-native-video';
 import { FilmInterface } from 'Type/Film.interface';
 import { FilmVideoInterface, SubtitleInterface } from 'Type/FilmVideo.interface';
 import { FilmVoiceInterface } from 'Type/FilmVoice.interface';
+import { SkipSegment } from 'Util/IntroDb';
 
 import { RewindDirection } from './Player.config';
 
@@ -33,6 +34,9 @@ export interface PlayerComponentProps {
   video: FilmVideoInterface;
   film: FilmInterface;
   voice: FilmVoiceInterface;
+  // the intro / recap / credits / preview the playhead is in, if the service knows of any
+  skipSegment?: SkipSegment;
+  handleSkipSegment: () => void;
   videoTrack: PlayerVideoTrack | null;
   selectedQuality: string;
   selectedSubtitle?: SubtitleInterface;

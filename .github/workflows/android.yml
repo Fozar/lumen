@@ -47,7 +47,12 @@ jobs:
       # which is enough for sideloading onto a TV with adb
       - name: Assemble release
         working-directory: android
-        run: ./gradlew assembleRelease --no-daemon
+        # packaging one APK per ABI runs out of the default Gradle heap; TVs and phones
+        # are ARM, so the x86 builds are skipped
+        run: >-
+          ./gradlew assembleRelease --no-daemon
+          -Dorg.gradle.jvmargs="-Xmx6g -XX:MaxMetaspaceSize=1g"
+          -PreactNativeArchitectures=armeabi-v7a,arm64-v8a
 
       - uses: actions/upload-artifact@v4
         with:

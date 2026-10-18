@@ -47,6 +47,7 @@ export type DeviceConfigType = {
   downloadsSavePoster: boolean;
   downloadsMaxParallel: number;
   playerAutoNextEpisode: boolean;
+  playerSkipSegments: boolean;
   playerKeepTimeOnVoiceChange: boolean;
   playerAutoFrameRateEnabled: boolean;
   playerAutoFrameRate: boolean;
@@ -117,6 +118,7 @@ export const defaultConfig: DeviceConfigType = {
   playerSaveQuality: true,
   playerAskQuality: false,
   playerAutoNextEpisode: true,
+  playerSkipSegments: true,
   playerKeepTimeOnVoiceChange: false,
   playerAutoFrameRateEnabled: false,
   playerAutoFrameRate: false,
@@ -187,6 +189,7 @@ export const CONFIG_KEY_SECTIONS = {
   playerDefaultAspectRatio: BACKUP_SECTION.SETTINGS_PLAYER,
   playerDefaultSpeed: BACKUP_SECTION.SETTINGS_PLAYER,
   playerAutoNextEpisode: BACKUP_SECTION.SETTINGS_PLAYER,
+  playerSkipSegments: BACKUP_SECTION.SETTINGS_PLAYER,
   playerKeepTimeOnVoiceChange: BACKUP_SECTION.SETTINGS_PLAYER,
   playerAutoFrameRateEnabled: BACKUP_SECTION.SETTINGS_PLAYER,
   playerAutoFrameRate: BACKUP_SECTION.SETTINGS_PLAYER,

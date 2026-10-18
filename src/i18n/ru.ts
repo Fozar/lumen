@@ -266,6 +266,8 @@ const ru: Translations = {
   'Append the air date to the episode name, as "name (date)".':
     'Дата выхода серии будет добавлена к её названию в формате «название (дата)».',
   'Auto next episode': 'Автоматически включать следующую серию',
+  'Skip intro and credits': 'Пропуск заставки и титров',
+  'Shows a skip button for intros and credits. The IMDb id of the title is sent to TheIntroDB.': 'Показывает кнопку пропуска заставки и титров. IMDb ID фильма отправляется в TheIntroDB.',
   'Toggle auto next episode.': 'После окончания серии автоматически будет включаться следующая.',
   'Keep time on voice change': 'Сохранять время при смене озвучки',
   'Switching the voice keeps the current position instead of the one saved for it.': 'При смене озвучки воспроизведение продолжится с текущей позиции, а не с сохранённой для выбранной озвучки.',

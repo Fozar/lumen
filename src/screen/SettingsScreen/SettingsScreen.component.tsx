@@ -64,6 +64,7 @@ import Settings2 from 'lucide-react-native/icons/settings-2';
 import ShieldAlert from 'lucide-react-native/icons/shield-alert';
 import ShieldCheck from 'lucide-react-native/icons/shield-check';
 import Sparkles from 'lucide-react-native/icons/sparkles';
+import SkipForward from 'lucide-react-native/icons/skip-forward';
 import StepForward from 'lucide-react-native/icons/step-forward';
 import Sun from 'lucide-react-native/icons/sun';
 import Tag from 'lucide-react-native/icons/tag';
@@ -134,6 +135,7 @@ export function SettingsScreenComponent({
   downloadsMaxParallel,
   downloadsMaxParallelOptions,
   playerAutoNextEpisode,
+  playerSkipSegments,
   playerKeepTimeOnVoiceChange,
   playerLongPressSpeed,
   playerVolumeGesture,
@@ -591,6 +593,13 @@ export function SettingsScreenComponent({
         IconComponent={ StepForward }
         value={ playerAutoNextEpisode }
         onChange={ (value) => onConfigUpdate('playerAutoNextEpisode', value) }
+      />
+      <SettingSwitch
+        title={ t('Skip intro and credits') }
+        subtitle={ t('Shows a skip button for intros and credits. The IMDb id of the title is sent to TheIntroDB.') }
+        IconComponent={ SkipForward }
+        value={ playerSkipSegments }
+        onChange={ (value) => onConfigUpdate('playerSkipSegments', value) }
       />
       <SettingSwitch
         title={ t('Keep time on voice change') }

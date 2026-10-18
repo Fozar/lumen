@@ -264,6 +264,8 @@ const en = {
   'Append the air date to the episode name, as "name (date)".':
     'Append the air date to the episode name, as "name (date)".',
   'Auto next episode': 'Auto next episode',
+  'Skip intro and credits': 'Skip intro and credits',
+  'Shows a skip button for intros and credits. The IMDb id of the title is sent to TheIntroDB.': 'Shows a skip button for intros and credits. The IMDb id of the title is sent to TheIntroDB.',
   'Toggle auto next episode.': 'Toggle auto next episode.',
   'Keep time on voice change': 'Keep time on voice change',
   'Switching the voice keeps the current position instead of the one saved for it.': 'Switching the voice keeps the current position instead of the one saved for it.',

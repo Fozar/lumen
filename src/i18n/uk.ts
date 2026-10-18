@@ -266,6 +266,8 @@ const uk: Translations = {
   'Append the air date to the episode name, as "name (date)".':
     'Дату виходу серії буде додано до її назви у форматі «назва (дата)».',
   'Auto next episode': 'Автоматично включати наступну серію',
+  'Skip intro and credits': 'Пропуск заставки та титрів',
+  'Shows a skip button for intros and credits. The IMDb id of the title is sent to TheIntroDB.': 'Показує кнопку пропуску заставки та титрів. IMDb ID фільму надсилається до TheIntroDB.',
   'Toggle auto next episode.': 'Після завершення серії автоматично буде включатись наступна.',
   'Keep time on voice change': 'Зберігати час при зміні озвучення',
   'Switching the voice keeps the current position instead of the one saved for it.': 'При зміні озвучення відтворення продовжиться з поточної позиції, а не зі збереженої для вибраного озвучення.',

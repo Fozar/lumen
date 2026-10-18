@@ -102,6 +102,7 @@ export function PlayerContainer({
     isLocalLibrary,
     playerSaveQuality,
     playerAutoNextEpisode,
+    playerSkipSegments,
     playerKeepTimeOnVoiceChange,
     playerBufferTimeSetting,
     playerBackBufferTimeSetting,
@@ -125,7 +126,12 @@ export function PlayerContainer({
 
   const [selectedVideo, setSelectedVideo] = useState<FilmVideoInterface>(video);
   const [selectedVoice, setSelectedVoice] = useState<FilmVoiceInterface>(voice);
-  const skipSegments = useSkipSegments(film, selectedVoice.lastSeasonId, selectedVoice.lastEpisodeId, !isOffline);
+  const skipSegments = useSkipSegments(
+    film,
+    selectedVoice.lastSeasonId,
+    selectedVoice.lastEpisodeId,
+    playerSkipSegments && !isOffline
+  );
   const getSkipSegments = useLatest(skipSegments);
   const [skipSegment, setSkipSegment] = useState<SkipSegment | undefined>();
   const [selectedQuality, setSelectedQuality] = useState<string>(defaultQuality);
